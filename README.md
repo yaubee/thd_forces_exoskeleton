@@ -28,20 +28,32 @@ most testing and interactions have been achieved through CLI and basic python sc
 The support structure is created with topology optimization and a prototype was assembled with powder printed parts.
 
 ## Repository Structure:
-- **`project-root/`**: The root directory of your project.
-  - **`src/`**: Contains the source code files.
-    - **`main.py`**: The main script of the project.
-    - **`module.py`**: A module with additional functionality.
-    - **`utils.py`**: Utility functions used throughout the project.
-  - **`docs/`**: Contains documentation files.
-    - **`index.md`**: The main file of the documentation.
-    - **`setup.md`**: Instructions on how to set up the project.
-  - **`tests/`**: Contains test scripts for the project.
-    - **`test_main.py`**: Tests related to the main script.
-    - **`test_utils.py`**: Tests for utility functions.
-  - **`.gitignore`**: Specifies files and directories to be ignored by Git.
-  - **`README.md`**: This file, providing an overview of the project.
-  - **`requirements.txt`**: Lists the project dependencies.
+
+Complete repository structure:
+
+- **`forces-exoskeleton-project/`**: root directory.
+    - **`cad_files/`**: See [Mechanical Components](#mechanical-components) below.
+    - **`docs/`**: Contains documentation files and images.
+        - **`images/`**
+        - **`Masterarbeit_TCC_Aubeeluck.pdf`**: Supporting Master Thesis work for the actuator development.
+        - **`Four_bar_linkage_and_freudenstein.pdf`**: Sketch depicting four-bar linkage parameters.
+        - **`Exoskeleton Operation Documentation.pdf`**: General operation guide for microcontroller and odrive.
+    - **`microcontroller_scripts/`**
+        - **`libraries/`**: Dependencies to run the microcontroller scripts.
+        - **`mega_main/`**: The main script that runs on 'Arduino Mega' microcontroller.
+            - **`mega_main.ino`**
+        - **`nano_code_left_leg/`**: The microcontroller script for left leg actuator and sensor.
+            - **`nano_code_left_leg.ino`**
+        - **`nano_code_right_leg/`**: The microcontroller script for right leg actuator and sensor.
+            - **`nano_code_right_leg.ino`**
+    - **`python_scripts/`**
+        - **`four_bar_force_calculation.py`**: Input force and output force mapping.
+        - **`odrive_calibration.py`**: ODrive motor calibration at start.
+        - **`odrive_repeating_motions.py`**: BLDC cycling motion control.
+        - **`transformation_of_four_bar.py`**: Input (Crank) angle and output (Coupler) angle mapping.
+    - **`.gitsync.sh`**
+    - **`README.md`**
+   
 
 ## Electronic Components:
 
@@ -74,6 +86,8 @@ These are the components used:
 
 ## Mechanical Components:
 
+Directory structure for CAD files:
+
 - **`forces-exoskeleton-project/`**
     - **`cad_files/`**: Directory for CAD data.
         - **`actuator_4.0/`**: Contains STL for actuator parts.
@@ -81,6 +95,7 @@ These are the components used:
         - **`exoskeleton_assembly/`**: Contains Inventor (.iam) assembly data for the exoskeleton and test-stand.
         - **`Actuator_4.0.stp`**: Actuator (Left and Right) .step data.
         - **`Complete_exoskeleton_with_test_stand.stp`**: Exoskeleton with test-stand .step data.
+        - **`four_bar_linkage_and_freudenstein.dwg`**: AutoCAD drawing of four-bar linkage dimensions, based on Freudenstein Equations.
 
 <div style="text-align: center;">
   <img src="docs/images/exoskeleton_on_stand.PNG" alt="Fig. 4: Complete_exoskeleton_with_test_stand.stp File." width="150" />

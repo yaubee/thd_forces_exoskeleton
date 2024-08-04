@@ -1,0 +1,8 @@
+Copy the contents of the following folder:
+“Installation Files\Arduino libraries”
+ to 
+“My Documents\Arduino\libraries”
+
+It could also have this path:
+
+“\(C:)\User\<your username>\Documents\Arduino\libraries“

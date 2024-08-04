@@ -3,12 +3,19 @@ Project at Deggendorf Institute of Technology for the development of a lower-lim
 Scientific publication about the exoskeleton can be found [here](https://doi.org/10.1109/CoDIT58514.2023.10284272).
 The supporting Master Thesis work for the actuator development is available [here](docs/Masterarbeit_TCC_Aubeeluck.pdf).
 
-Images of the the exoskeleton CAD model and completed 3D-printed model.
-![cad_exoskeleton](docs/images/complete_exoskeleton_cad.PNG)
-Fig. 1: CAD model of complete exoskeleton
+<div style="text-align: center;">
+  <img src="docs/images/complete_exoskeleton_cad.PNG" alt="Fig. 1: CAD model of complete exoskeleton." width="825" />
+  <p><strong>Fig. 1: CAD model of complete exoskeleton.</strong></p>
+</div>
 
-![actual_exoskeleton](docs/images/complete_exoskeleton_actual.PNG)
-Fig. 1: Actual exoskeleton
+<div style="text-align: center;">
+  <img src="docs/images/complete_exoskeleton_actual.PNG" alt="Fig. 2: Actual exoskeleton." width="825" />
+  <p><strong>Fig. 2: Actual exoskeleton.</strong></p>
+</div>
+
+## Goal of this Repository
+To complement the publication titled ["Design and Development of a knee rehabilitation exoskeleton with four-bar linkage actuation"](https://doi.org/10.1109/CoDIT58514.2023.10284272), so that the experimental trials, as well as results are made available and can be reproduced independently. This work has been completed by several researchers at the DIT and crediting us for any use of the material here would be very much appreciated.
+For the image/build file for the Raspberry Pi and additional work with AI Gait recognition, please contact us.
 
 ## Description
 The goal of this project was to design and develop an exoskeleton that can be worn with higher levels of acceptance
@@ -20,18 +27,29 @@ No specific HMI exists for the use and operation of the exoskeleton. Since an OD
 most testing and interactions have been achieved through CLI and basic python scripts.
 The support structure is created with topology optimization and a prototype was assembled with powder printed parts.
 
-## Structure
-
-
-## Goal of this Repository
-To complement the publication titled ["Design and Development of a knee rehabilitation exoskeleton with four-bar linkage actuation"](https://doi.org/10.1109/CoDIT58514.2023.10284272), so that the experimental trials, as well as results are made available and can be reproduced independently. This work has been completed by several researchers at the DIT and crediting us for any use of the material here would be very much appreciated.
-For the image/build file for the Raspberry Pi and additional work with AI Gait recognition, please contact us.
+## Repository Structure:
+- **`project-root/`**: The root directory of your project.
+  - **`src/`**: Contains the source code files.
+    - **`main.py`**: The main script of the project.
+    - **`module.py`**: A module with additional functionality.
+    - **`utils.py`**: Utility functions used throughout the project.
+  - **`docs/`**: Contains documentation files.
+    - **`index.md`**: The main file of the documentation.
+    - **`setup.md`**: Instructions on how to set up the project.
+  - **`tests/`**: Contains test scripts for the project.
+    - **`test_main.py`**: Tests related to the main script.
+    - **`test_utils.py`**: Tests for utility functions.
+  - **`.gitignore`**: Specifies files and directories to be ignored by Git.
+  - **`README.md`**: This file, providing an overview of the project.
+  - **`requirements.txt`**: Lists the project dependencies.
 
 ## Electronic Components:
 
 The circuit schematic for the exoskeleton control is illustrated in the figure below:
-
-![circuit_schematic](docs/images/circuit_schematic.PNG)Fig. 3: Circuit Schematic for Exoskeleton
+<div style="text-align: center;">
+  <img src="docs/images/circuit_schematic.PNG" alt="Fig. 3: Circuit Schematic for Exoskeleton" width="825" />
+  <p><strong>Fig. 3: Circuit Schematic for Exoskeleton</strong></p>
+</div>
 
 
 These are the components used:
@@ -56,20 +74,55 @@ These are the components used:
 
 ## Mechanical Components:
 
+- **`forces-exoskeleton-project/`**
+    - **`cad_files/`**: Directory for CAD data.
+        - **`actuator_4.0/`**: Contains STL for actuator parts.
+        - **`actuator_assembly/`**: Contains Inventor (.iam) assembly data for the actuator.
+        - **`exoskeleton_assembly/`**: Contains Inventor (.iam) assembly data for the exoskeleton and test-stand.
+        - **`Actuator_4.0.stp`**: Actuator (Left and Right) .step data.
+        - **`Complete_exoskeleton_with_test_stand.stp`**: Exoskeleton with test-stand .step data.
+
+<div style="text-align: center;">
+  <img src="docs/images/exoskeleton_on_stand.PNG" alt="Fig. 4: Complete_exoskeleton_with_test_stand.stp File." width="150" />
+  <p><strong>Fig. 4: Complete_exoskeleton_with_test_stand.stp File.</strong></p>
+</div>
+
 The actuator exploded view and cross-section are illustrated in the images below.
 Parts were 3D-printed with SLS (EOS Selective Laser Sintering) and HP MJF (Multi Jet Fusion), as well as machined via 
 conventional means.
 
+<div style="text-align: center;">
+  <img src="docs/images/actuator_exploded_view.PNG" alt="Fig. 5: Exploded view of actuator and details of components." width="900" />
+  <p><strong>Fig. 5: Exploded view of actuator and details of components.</strong></p>
+</div>
 
-![exploded_view_actuator](docs/images/actuator_exploded_view.PNG)Fig. 4: Exploded view of actuator and details of components.
-
-![cross_section_view_actuator](docs/images/actuator_cross_section.PNG)Fig. 5: Cross-section view of actuator and details of components.
+<div style="text-align: center;">
+  <img src="docs/images/actuator_cross_section.PNG" alt="Fig. 6: Cross-section view of actuator and details of components." width="600" />
+  <p><strong>Fig. 6: Cross-section view of actuator and details of components.</strong></p>
+</div>
 
 The four-bar-linkage is incorporated inside the actuator for a seamless design.
-![four_bar_linkage_parts](docs/images/four_bar_linkage_3d.PNG)Fig. 6: Parts of the four-bar linkage.
+<div style="text-align: center;">
+  <img src="docs/images/four_bar_linkage_3d.PNG" alt="Fig. 7: Parts of the four-bar linkage." width="600" />
+  <p><strong>Fig. 7: Parts of the four-bar linkage.</strong></p>
+</div>
 
-![four_bar_linkage_2d](docs/images/four_bar_linkage_2d.PNG)Fig. 7: Four-bar linkage dimensions.
-![four_bar_linkage_dimensions](docs/images/four_bar_linkage_dimensions.PNG)Fig. 8: Links in the four-bar linkage.
+<div style="display: flex; justify-content: center;">
 
-The torque sensor was machined via CNC-milling in Aluminum 7075. The dimensions for the torque sensor machining is shown below. ![torque_sensor_dimensions](docs/images/torque_sensor_2d_sketch.PNG)Fig. 9: Torque sensor element dimensions
+  <div style="margin-right: 10px;">
+    <img src="docs/images/four_bar_linkage_2d.PNG" alt="Fig. 8: Four-bar linkage dimensions." width="425" />
+    <p style="text-align: center;"><strong>Fig. 8: Four-bar linkage dimensions.</strong></p>
+  </div>
 
+  <div>
+    <img src="docs/images/four_bar_linkage_dimensions.PNG" alt="Fig. 9: Links in the four-bar linkage." width="300" />
+    <p style="text-align: center;"><strong>Fig. 9: Links in the four-bar linkage.</strong></p>
+  </div>
+
+</div>
+
+The torque sensor was machined via CNC-milling in Aluminum 7075. The dimensions for the torque sensor machining is shown below. 
+<div style="text-align: center;">
+  <img src="docs/images/torque_sensor_2d_sketch.PNG" alt="Fig. 10: Torque sensor element dimensions" width="600" />
+  <p><strong>Fig. 10: Torque sensor element dimensions</strong></p>
+</div>

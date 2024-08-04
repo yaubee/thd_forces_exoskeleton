@@ -1,160 +1,119 @@
-""" Transformation Points of Four-Bar-Mechanism and Knee EXOSKELETON """
-
-""" Refer to 'four bar linkage and freudenstein.pdf' or 'four bar linkage and freudenstein.dwg' to understand variable nomination"""
-#start from P1 [0,0] to P6 end point
-#points described in 2D
-
 import numpy as np
 from math import *
 
-np.set_printoptions(suppress = True)
+np.set_printoptions(suppress=True)
 
-#link values:
+class FourBarMechanism:
+    def __init__(self, L1, L2, L3, L4, L5, t1, t2, a, b, t4):
+        self.L1 = L1
+        self.L2 = L2
+        self.L3 = L3
+        self.L4 = L4
+        self.L5 = L5
+        self.t1 = t1
+        self.t2 = t2
+        self.a = a
+        self.b = b
+        self.t4 = t4
 
-L1 = 17.45
-L2 = 35.75
-L4 = 46.15
-L3 = 41.89
+        self.trig_t1 = -self.t1
+        self.trig_t2 = -self.t2
 
-#shank length
-L5 = 30.00
+        # Compute initial angles
+        self.compute_shank_angles()
+        self.compute_link_points()
 
-t1 = 40.23 
-t2 = 20
-a = 103.15 
-b = 180. - a
-t4 = 100.83
+    def shank_angle(self):
+        k1 = self.L1 / self.L2
+        k2 = self.L1 / self.L3
+        k3 = ((self.L4**2) - (self.L1**2) - (self.L2**2) - (self.L3**2)) / (2 * self.L2 * self.L3)
+        E = -2 * sin(radians(self.t2))
+        D = k2 * cos(radians(self.t2)) + cos(radians(self.t2)) + k3 - k1
+        F = k2 * cos(radians(self.t2)) - cos(radians(self.t2)) + k3 + k1
+        angle = 2 * degrees(atan((-E + sqrt(E**2 - 4 * D * F)) / (2 * D)))
 
-trig_t1 = -t1
-trig_t2 = -t2
+        if angle < 0:
+            angle += 360
 
-global tshank
-global tshank_hor
-global tshank_ver
+        return angle
 
+    def compute_shank_angles(self):
+        t = self.shank_angle()
+        self.tc_coupler = -(t + abs(self.t1))
+        self.tc_coupler_hor = t + self.t1
+        self.tshank_hor = self.tc_coupler_hor - self.b
+        self.tc_coupler_ver = t + self.t1 - 90
+        self.tshank_ver = self.tc_coupler_ver - self.b
 
-#function to determine the rotation angle theta3 (of coupler)
-def shank_angle(t2):
-    k1 = L1/L2
-    k2 = L1/L3
-    k3 = ((L4*L4)-(L1*L1)-(L2*L2)-(L3*L3))/(2*L2*L3)
-    E = -2*sin(radians(t2))
-    D = k2*cos(radians(t2)) + cos(radians(t2)) + k3 - k1
-    F = k2*cos(radians(t2)) - cos(radians(t2)) + k3 + k1
-    #angle between coupler link and link 1 (L1 and L3)
-    t = 2 * degrees(atan((-E + sqrt((E*E)-(4*D*F)))/(2*D)))
-  
-    
-    if t < 0:
-        t = t + 360
+        if t < 0:
+            self.tshank_ver += 360
 
-    
+    @staticmethod
+    def translate_point(start, vx, vy):
+        translation_vector = np.array([[vx], [vy]])
+        end_point = np.add(start, translation_vector)
+        return end_point
 
-    return t
+    @staticmethod
+    def trig_pyth(start, length, angle, inverse=0):
+        rotation_angle = -inverse * pi / 2
+        translation = np.array([[length * cos(radians(angle))],
+                                [length * sin(radians(angle))]])
+        rotation_matrix = np.array([[cos(rotation_angle), -sin(rotation_angle)],
+                                    [sin(rotation_angle), cos(rotation_angle)]])
+        rotated_translation = rotation_matrix.dot(translation)
+        end_point = np.add(start, rotated_translation)
+        return end_point
 
-#to determine basic translation of vectors
-#arguments: start point: s and translation vector: vx, vy
-#returns end vector
-def trans(s,vx,vy):
-    tv = np.array([[vx],
-                   [vy]])
-    ev = np.add(s,tv)
+    @staticmethod
+    def line_equation(start, end):
+        start = np.append(start, [[1]], axis=0)
+        end = np.append(end, [[1]], axis=0)
+        return np.cross(start, end, axis=0)
 
-    return ev
-    
+    @staticmethod
+    def intersect_lines(s1, e1, s2, e2):
+        eq1 = FourBarMechanism.line_equation(s1, e1)
+        eq2 = FourBarMechanism.line_equation(s2, e2)
+        prod = np.cross(eq1, eq2, axis=0)
+        if prod[2, 0] != 0:
+            intersection = np.array([[prod[0, 0] / prod[2, 0]],
+                                     [prod[1, 0] / prod[2, 0]]])
+            return intersection
 
-#function to determine the end coordinates from the trigonometric pythagorean principles
-#arguments: l: hypotenuse, t: angle at adjacent, p: start coordinates, i: inverse
-#for inversing x and y axes, set i to 1, else i to 0
-def trig_pyth(p,l,t,i):
-    a = -1*i*pi/2
-    p_t = np.array([[l * cos(radians(t))], #x
-                    [l * sin(radians(t))]])#y
-    rot = np.array([[cos(a),-sin(a)],
-               [sin(a),cos(a)]])
-    
-    p_t = rot.dot(p_t)
-    
-    p_end = np.add(p,p_t)
+    def compute_link_points(self):
+        self.p1 = np.array([[0], [0]])
+        self.p2 = self.trig_pyth(self.p1, self.L1, self.trig_t1, 0)
+        self.p4 = self.trig_pyth(self.p1, self.L2, self.trig_t1 + self.trig_t2, 0)
+        self.p3 = self.trig_pyth(self.p4, self.L3, self.tc_coupler, 0)
+        self.p5 = (self.p3 + self.p4) / 2
+        self.p6 = self.trig_pyth(self.p5, self.L5, -self.tshank_ver, 1)
 
-    return p_end
+        self.icr = self.intersect_lines(self.p1, self.p4, self.p2, self.p3)
 
-#arguments: start point s, end point e of line
-#equation is generated through cross section in the form: ax + by + c = 0
-#param arguments return these:
-def line(s,e):
-    s = np.append(s,[[1]],axis=0)
-    e = np.append(e,[[1]],axis=0)
-    eq = np.cross(s,e,axis=0)
+    def print_results(self):
+        print('Input angle:', self.t2)
+        print('Shank output angle to horizontal:', self.tshank_hor)
+        print('p1:', self.p1)
+        print('p2:', self.p2)
+        print('p4:', self.p4)
+        print('p3:', self.p3)
+        print('p5:', self.p5)
+        print('p6:', self.p6)
+        print('ICR:', self.icr)
 
-    return eq
-""" 
-    eq = np.array([[a],
-                     [b],
-                    [c]]) """
+if __name__ == "__main__":
+    # 4-bar linkage parameters:
+    L1 = 17.45
+    L2 = 35.75
+    L3 = 41.89
+    L4 = 46.15
+    L5 = 30.00
+    t1 = 40.23
+    t2 = 20
+    a = 103.15
+    b = 180. - a
+    t4 = 100.83
 
-#determine the intersection points of two lines denoted by four points:
-#arguments: s1:start first, e1:end first, s2:start second, e2:end second
-def intersect(s1,e1,s2,e2):
-    eq1 = line(s1,e1)
-    eq2 = line(s2,e2)
-
-    prod = np.cross(eq1,eq2,axis=0)
-    intersection = np.array([[prod[0,0]/prod[2,0]],
-                              [prod[1,0]/prod[2,0]]])
-    #as long as links not parallel:                       
-    if prod[2,0]!=0:
-        return intersection
-
-#extra calculations from t:
-t = shank_angle(t2)
-
-tcoupler = - (t + abs(t1))
-
-tcoupler_hor = t + t1
-tshank_hor = tcoupler_hor - b
-
-tcoupler_ver = t + t1 - 90
-tshank_ver = tcoupler_ver - b
-
-if t < 0:
-    tshank_ver = tshank_ver + 360
-    
-#point P1: (Base coordinates in actuator)
-p1 = np.array([[0],
-              [0]])
-
-#points p2, p3, p4, p5 and p6:
-p2 = trig_pyth(p1,L1,trig_t1,0)
-p4 = trig_pyth(p1,L2,trig_t1+trig_t2,0)
-p3 = trig_pyth(p4,L3,tcoupler,0)
-p5 = np.add(p3,p4)/2
-#p6 = trans(p5,0,-L5)
-p6 = trig_pyth(p5, L5, -tshank_ver,1)
-
-print('input angle:')
-print(t2)
-print('shank output angle to horizontal:')
-print(tshank_hor)
-               
-print('p1:')
-print(p1)
-print('p2:')
-print(p2)
-print('p4:')
-print(p4)
-print('p3:')
-print(p3)
-print('p5:')
-print(p5)
-print('p6:')
-print(p6)
-
-
-#ICR is the intersection of links L4 and L2:
-
-icr = intersect(p1,p4,p2,p3)
-print('icr:')
-print(icr)
-
-
+    mechanism = FourBarMechanism(L1, L2, L3, L4, L5, t1, t2, a, b, t4)
+    mechanism.print_results()

@@ -99,7 +99,7 @@ Directory structure for CAD files:
 
 <div style="text-align: center;">
   <img src="docs/images/exoskeleton_on_stand.PNG" alt="Fig. 4: Complete_exoskeleton_with_test_stand.stp File." width="150" />
-  <p><strong>Fig. 4: Complete_exoskeleton_with_test_stand.stp File.</strong></p>
+  <p><strong>Fig. 4: Step file: Complete exoskeleton with test stand.</strong></p>
 </div>
 
 The actuator exploded view and cross-section are illustrated in the images below.
@@ -119,24 +119,25 @@ conventional means.
 The four-bar-linkage is incorporated inside the actuator for a seamless design.
 <div style="text-align: center;">
   <img src="docs/images/four_bar_linkage_3d.PNG" alt="Fig. 7: Parts of the four-bar linkage." width="600" />
-  <p><strong>Fig. 7: Parts of the four-bar linkage.</strong></p>
+  <p><strong>Fig. 7: Exploded view: Parts of the four-bar linkage.</strong></p>
 </div>
 
 <div style="display: flex; justify-content: center;">
 
   <div style="margin-right: 10px;">
     <img src="docs/images/four_bar_linkage_2d.PNG" alt="Fig. 8: Four-bar linkage dimensions." width="425" />
-    <p style="text-align: center;"><strong>Fig. 8: Four-bar linkage dimensions.</strong></p>
+    <p style="text-align: center;"><strong>Fig. 8: Links in the four-bar linkage.</strong></p>
   </div>
 
   <div>
     <img src="docs/images/four_bar_linkage_dimensions.PNG" alt="Fig. 9: Links in the four-bar linkage." width="300" />
-    <p style="text-align: center;"><strong>Fig. 9: Links in the four-bar linkage.</strong></p>
+    <p style="text-align: center;"><strong>Fig. 9: Four-bar linkage dimensions.</strong></p>
   </div>
 
 </div>
 
 The torque sensor was machined via CNC-milling in Aluminum 7075. The dimensions for the torque sensor machining is shown below. 
+A peak torque of 20 Nm is measurable within the safety limits of the torque sensing element.
 <div style="text-align: center;">
   <img src="docs/images/torque_sensor_2d_sketch.PNG" alt="Fig. 10: Torque sensor element dimensions" width="600" />
   <p><strong>Fig. 10: Torque sensor element dimensions</strong></p>
